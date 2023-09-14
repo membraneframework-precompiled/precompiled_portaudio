@@ -1,0 +1,75 @@
+version: 2.1
+
+jobs:
+  build_macos_intel:
+    macos:
+      xcode: 14.0.1
+    steps:
+      - checkout
+      - run:
+          command: |
+            chmod a+x ./build_portaudio.sh
+            ./build_portaudio.sh
+          environment:
+            ARTIFACT_NAME:
+              portaudio_macos_intel
+      - persist_to_workspace:
+          root: ~/project/
+          paths:
+            - workspace/portaudio_macos_intel
+
+  build_linux:
+    docker:
+      - image: ubuntu
+    steps:
+      - checkout
+      - run: apt-get update
+      - run: apt-get install -y curl gcc git make g++ bzip2
+      - run:
+          command:  |
+            chmod a+x ./build_portaudio.sh
+            ./build_portaudio.sh
+          environment:
+            ARTIFACT_NAME:
+              portaudio_linux
+      - persist_to_workspace:
+          root: ~/project/
+          paths:
+            - workspace/portaudio_linux
+
+  publish: 
+    docker:
+      - image: ubuntu
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: mkdir /root/artifacts
+      - run: |
+            directory=/root/workspace
+            for subdir in "$directory"/*; do
+              if [ -d "$subdir" ]; then  
+                subdir_name="$(basename "$subdir")"
+                tar -czvf "$subdir_name.tar.gz" -C "$directory" "$subdir_name"
+                mv "$subdir_name.tar.gz" /root/artifacts
+              fi
+            done
+      - run: apt update
+      - run: cd /root/
+      - run: apt install -y wget
+      - run: wget https://github.com/tcnksm/ghr/releases/download/v0.16.0/ghr_v0.16.0_linux_amd64.tar.gz
+      - run: tar -xf ghr_v0.16.0_linux_amd64.tar.gz
+      - run: 
+          command: ./ghr_v0.16.0_linux_amd64/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /root/artifacts/ 
+          environment:
+            VERSION:
+              version1
+
+workflows:
+  build:
+    jobs:
+      - build_macos_intel
+      - build_linux
+      - publish:
+          requires:
+            - build_macos_intel
+            - build_linux
