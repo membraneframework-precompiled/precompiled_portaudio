@@ -24,7 +24,7 @@ jobs:
     steps:
       - checkout
       - run: apt-get update
-      - run: apt-get install -y curl gcc git make g++ bzip2
+      - run: apt-get install -y curl gcc git make g++ bzip2 dbus
       - run:
           command:  |
             chmod a+x ./build_portaudio.sh
