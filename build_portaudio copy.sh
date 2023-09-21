@@ -9,7 +9,4 @@ export XML_CATALOG_FILES=`pwd`/etc/xml/catalog
 brew install --build-from-source portaudio  # for linux: brew install --build-from-source portaudio
 cp -r ~/.local/homebrew/include/* ~/project/workspace/$ARTIFACT_NAME/include
 cp -r ~/.local/homebrew/lib/*.dylib ~/project/workspace/$ARTIFACT_NAME/lib
-for f in ~/project/workspace/$ARTIFACT_NAME/lib/*.dylib;
-do
-    install_name_tool -id "@rpath/$f" $f
-done
+
