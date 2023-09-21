@@ -68,8 +68,8 @@ workflows:
   build:
     jobs:
       - build_macos_intel
-      # - build_linux
+      - build_linux
       - publish:
           requires:
             - build_macos_intel
-            # - build_linux
+            - build_linux
