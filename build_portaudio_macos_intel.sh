@@ -4,7 +4,7 @@ mkdir -p ~/project/workspace/$ARTIFACT_NAME/lib
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 brew install portaudio  # for linux: brew install --build-from-source portaudio
 cp -r /home/linuxbrew/.linuxbrew/include/* ~/project/workspace/$ARTIFACT_NAME/include
-cp -r /home/linuxbrew/.linuxbrew/lib/*.dylib.* ~/project/workspace/$ARTIFACT_NAME/lib
+cp -r /home/linuxbrew/.linuxbrew/lib/*.dylib ~/project/workspace/$ARTIFACT_NAME/lib
 cd ~/project/workspace/$ARTIFACT_NAME/lib
 for f in *.dylib;
 do

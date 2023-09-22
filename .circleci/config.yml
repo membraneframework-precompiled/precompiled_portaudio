@@ -8,8 +8,8 @@ jobs:
       - checkout
       - run:
           command: |
-            chmod a+x ./build_portaudio_macos.sh
-            ./build_portaudio_macos.sh
+            chmod a+x ./build_portaudio_macos_intel.sh
+            ./build_portaudio_macos_intel.sh
           environment:
             ARTIFACT_NAME:
               portaudio_macos_intel
