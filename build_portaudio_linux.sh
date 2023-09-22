@@ -6,7 +6,3 @@ brew install portaudio  # for linux: brew install --build-from-source portaudio
 cp -r /home/linuxbrew/.linuxbrew/include/* ~/project/workspace/$ARTIFACT_NAME/include
 cp -r /home/linuxbrew/.linuxbrew/lib/*.so.* ~/project/workspace/$ARTIFACT_NAME/lib
 cd ~/project/workspace/$ARTIFACT_NAME/lib
-for f in *.dylib;
-do
-    install_name_tool -id "@rpath/$f" $f
-done
