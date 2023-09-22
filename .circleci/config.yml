@@ -8,8 +8,8 @@ jobs:
       - checkout
       - run:
           command: |
-            chmod a+x ./build_portaudio.sh
-            ./build_portaudio.sh
+            chmod a+x ./build_portaudio_macos.sh
+            ./build_portaudio_macos.sh
           environment:
             ARTIFACT_NAME:
               portaudio_macos_intel
@@ -24,11 +24,11 @@ jobs:
     steps:
       - checkout
       - run: apt-get update
-      - run: apt-get install -y curl gcc git make g++ bzip2 dbus
+      - run: apt-get install -y curl gcc git make g++ bzip2
       - run:
           command:  |
-            chmod a+x ./build_portaudio.sh
-            ./build_portaudio.sh
+            chmod a+x ./build_portaudio_linux.sh
+            ./build_portaudio_linux.sh
           environment:
             ARTIFACT_NAME:
               portaudio_linux
