@@ -6,17 +6,15 @@ orbs:
 workflows:
   precompile-publish:
     jobs:
-      # - elixir/build_test
       - elixir/precompile_for_macos_intel:
-        package-name: portaudio
-      # - elixir/precompile_for_linux: 
-      #   package-name: portaudio
-      # - elixir/publish_precompiled:
-      #   version: version2
-      #   requires:
-      #     - elixir/precompile_for_macos_intel
-      #     - elixir/precompile_for_linux
-
+          package-name: portaudio
+      - elixir/precompile_for_linux:
+          package-name: portaudio
+      - elixir/publish_precompiled:
+          version: version2
+          requires:
+            - elixir/precompile_for_macos_intel
+            - elixir/precompile_for_linux
 # jobs:
 #   build_macos_intel:
 #     macos:
@@ -54,7 +52,7 @@ workflows:
 #           paths:
 #             - workspace/portaudio_linux
 
-#   publish: 
+#   publish:
 #     docker:
 #       - image: ubuntu
 #     steps:
@@ -64,7 +62,7 @@ workflows:
 #       - run: |
 #             directory=/root/workspace
 #             for subdir in "$directory"/*; do
-#               if [ -d "$subdir" ]; then  
+#               if [ -d "$subdir" ]; then
 #                 subdir_name="$(basename "$subdir")"
 #                 tar -czvf "$subdir_name.tar.gz" -C "$directory" "$subdir_name"
 #                 mv "$subdir_name.tar.gz" /root/artifacts
@@ -75,8 +73,8 @@ workflows:
 #       - run: apt install -y wget
 #       - run: wget https://github.com/tcnksm/ghr/releases/download/v0.16.0/ghr_v0.16.0_linux_amd64.tar.gz
 #       - run: tar -xf ghr_v0.16.0_linux_amd64.tar.gz
-#       - run: 
-#           command: ./ghr_v0.16.0_linux_amd64/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /root/artifacts/ 
+#       - run:
+#           command: ./ghr_v0.16.0_linux_amd64/ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /root/artifacts/
 #           environment:
 #             VERSION:
 #               version1
