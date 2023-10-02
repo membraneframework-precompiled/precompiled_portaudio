@@ -6,7 +6,7 @@ workflows:
   precompile:
     jobs:
       - elixir/precompile_for_macos_intel: &parameters
-          package-name: mad
+          package-name: portaudio
           expected-version: << pipeline.git.tag >>
           filters:
             tags:
