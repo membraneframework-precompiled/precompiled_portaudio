@@ -1,11 +1,11 @@
 version: 2.1
 orbs:
-  elixir: membraneframework/elixir@dev:7b9a847fb046bedb882b828dc987ec5c6cf21212
-  
+  elixir: membraneframework/elixir@1.5
+
 workflows:
   precompile:
     jobs:
-      - elixir/precompile_for_macos_intel: &parameters
+      - elixir/precompile_for_macos_arm: &parameters
           package-name: portaudio
           expected-version: << pipeline.git.tag >>
           filters:
@@ -13,16 +13,17 @@ workflows:
               ignore: /.*/
             tags:
               only: /v.*/
-      - elixir/precompile_for_macos_arm:
+      - elixir/precompile_for_linux_x86:
           <<: *parameters
-      - elixir/precompile_for_linux:
+      - elixir/precompile_for_linux_arm:
           <<: *parameters
       - elixir/publish_precompiled:
           requires:
             - elixir/precompile_for_macos_arm
-            - elixir/precompile_for_macos_intel
-            - elixir/precompile_for_linux
+            - elixir/precompile_for_linux_x86
+            - elixir/precompile_for_linux_arm
           version: << pipeline.git.tag >>
+          context: publishing
           filters:
             branches:
               ignore: /.*/
